@@ -9,3 +9,8 @@ export const addEmployee = async (data) => {
   const response = await axiosInstance.post("/employees/add", data);
   return response.data;
 };
+
+export const deleteEmployee = async (id) => {
+  const response = await axiosInstance.delete(`/employees/delete/${id}`);
+  return response.data;
+};

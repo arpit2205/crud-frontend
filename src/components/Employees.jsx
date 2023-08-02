@@ -15,12 +15,38 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { getAllEmployees } from "../api/employee";
+import { getAllEmployees, deleteEmployee } from "../api/employee";
 
 function Employees() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+
+  const handleDeleteEmployee = async (id) => {
+    try {
+      setLoading(true);
+      const response = await deleteEmployee(id);
+      console.log("Employee deleted", response.data);
+      toast({
+        title: "Success",
+        description: "Employee deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      fetchEmployees();
+    } catch (err) {
+      console.log(err);
+      toast({
+        title: "Error",
+        description: "Error fetching employees",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setLoading(false);
+    }
+  };
 
   const fetchEmployees = async () => {
     try {
@@ -64,6 +90,7 @@ function Employees() {
                 <Th>Department</Th>
                 <Th>Email address</Th>
                 <Th>Contact number</Th>
+                <Th>Action</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -76,6 +103,15 @@ function Employees() {
                   <Td>{employee.department}</Td>
                   <Td>{employee.email}</Td>
                   <Td>{employee.contact}</Td>
+                  <Td>
+                    <Button
+                      variant={"ghost"}
+                      colorScheme="red"
+                      onClick={() => handleDeleteEmployee(employee.id)}
+                    >
+                      Delete
+                    </Button>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>

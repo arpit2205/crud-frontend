@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-
 import { Box, Text, Input, Button, Select, useToast } from "@chakra-ui/react";
-
 import { addEmployee } from "../api/employee";
-
 import { useNavigate } from "react-router-dom";
 
 function AddEmployeeForm() {
